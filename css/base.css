@@ -1,0 +1,267 @@
+/* Reset, page ground, typography, atmosphere, reveal system. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+h1,
+h2,
+h3,
+p,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+}
+
+h3 {
+  font-size: 1.1875rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--fg);
+  color: #000;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.skip {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--fg);
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- Atmosphere ----------
+   One soft light from the upper right and a faint fill from the left,
+   drifting very slowly. Plain gradients, no blur filters, so it stays cheap. */
+.glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1100px;
+  overflow: clip;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(#000 50%, transparent);
+  mask-image: linear-gradient(#000 50%, transparent);
+}
+
+.glow-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.blob-a {
+  width: 84vmax;
+  height: 84vmax;
+  top: -50vmax;
+  right: -30vmax;
+  background: radial-gradient(
+    closest-side,
+    rgba(236, 232, 224, 0.22),
+    rgba(200, 198, 192, 0.09) 40%,
+    rgba(150, 150, 150, 0.03) 68%,
+    transparent 100%
+  );
+  animation: drift-a 48s ease-in-out infinite alternate;
+}
+
+.blob-b {
+  width: 60vmax;
+  height: 60vmax;
+  top: -34vmax;
+  left: -32vmax;
+  background: radial-gradient(
+    closest-side,
+    rgba(190, 188, 182, 0.11),
+    rgba(120, 120, 120, 0.04) 55%,
+    transparent 100%
+  );
+  animation: drift-b 60s ease-in-out infinite alternate;
+}
+
+.blob-c {
+  width: 36vmax;
+  height: 36vmax;
+  top: 4vmax;
+  right: 4vmax;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 255, 255, 0.12),
+    rgba(220, 220, 220, 0.04) 55%,
+    transparent 100%
+  );
+  animation: drift-c 40s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-6vmax, 5vmax, 0) scale(1.1); }
+}
+
+@keyframes drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(8vmax, 3vmax, 0) scale(1.08); }
+}
+
+@keyframes drift-c {
+  from { transform: translate3d(0, 0, 0) scale(0.92); opacity: 0.8; }
+  to { transform: translate3d(-5vmax, 6vmax, 0) scale(1.1); opacity: 1; }
+}
+
+/* Vignette: pulls the eye toward the centre of the page */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 38%, transparent 52%, rgba(0, 0, 0, 0.5));
+}
+
+/* Film grain. Static, very fine; also hides banding in dark gradients. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Reveal system ----------
+   reveal.js tags elements with [data-reveal] and adds .in as they scroll into view.
+   Nothing is hidden unless JS ran and motion is allowed. */
+.line {
+  display: block;
+  overflow: hidden;
+  padding: 0.12em 0;
+  margin: -0.12em 0;
+}
+
+.line-in {
+  display: block;
+}
+
+html.reveal-on [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 44px, 0);
+  filter: blur(12px);
+  transition: opacity 1.9s var(--ease), transform 2s var(--ease), filter 1.9s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+
+html.reveal-on [data-reveal].in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+html.reveal-on .reveal-lines .line-in {
+  transform: translate3d(0, 110%, 0);
+  transition: transform 1.25s var(--ease);
+  transition-delay: calc(var(--i, 0) * 0.13s);
+}
+
+html.reveal-on .reveal-lines.in .line-in {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

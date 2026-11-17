@@ -1,0 +1,35 @@
+/* Design tokens. Change the look of the whole site from this file.
+   Direction: deep charcoal, warm white, muted grey, one metallic silver accent. */
+
+:root {
+  color-scheme: dark;
+
+  /* Color */
+  --bg: #0c0c0d;
+  --bg-raised: #141415;
+  --fg: #f3f0ea;
+  --fg-dim: #a9a7a1;
+  --fg-mute: #8a8883;
+  --line: rgba(243, 240, 234, 0.11);
+  --line-strong: rgba(243, 240, 234, 0.3);
+  --accent: #c9ccd1; /* metallic silver */
+  --accent-dim: rgba(201, 204, 209, 0.45);
+  --focus: #f3f0ea;
+
+  /* Type: Hanken Grotesk (400 and 700) for everything functional,
+     Instrument Serif for the big editorial moments */
+  --sans: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --serif: 'Instrument Serif', 'Iowan Old Style', 'Times New Roman', Georgia, serif;
+
+  --fs-hero: clamp(3.1rem, 10.5vw, 9.5rem);
+  --fs-display: clamp(2.6rem, 6.4vw, 5.5rem);
+  --fs-title: clamp(1.75rem, 3.4vw, 3rem);
+  --fs-lede: clamp(1.0625rem, 1.5vw, 1.25rem);
+  --fs-small: 0.875rem;
+
+  /* Shape and layout */
+  --radius: 4px;
+  --wrap: 1280px;
+  --gap: clamp(16px, 2vw, 32px);
+  --ease: cubic-bezier(0.16, 0.84, 0.24, 1);
+}
